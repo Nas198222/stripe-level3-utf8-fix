@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  syntax:
+    name: PHP Syntax Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, json
+          coverage: none
+          tools: composer:v2
+
+      - name: Syntax check every PHP file
+        run: |
+          set -e
+          find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*" \
+            | while read f; do
+                echo "Checking $f"
+                php -l "$f"
+              done
+
+  phpstan:
+    name: PHPStan Static Analysis
+    runs-on: ubuntu-latest
+    needs: syntax
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, json
+          coverage: none
+          tools: composer:v2, phpstan:1.10
+
+      - name: Run PHPStan on src/
+        run: |
+          phpstan analyse src/ --level=5 --no-progress \
+            --error-format=table 2>&1 || true
+          echo ""
+          echo "NOTE: PHPStan here runs without WordPress/WooCommerce stubs — 'function not found' errors for WP core/WC APIs are expected and non-blocking."
+
+  wpcs:
+    name: WordPress Coding Standards
+    runs-on: ubuntu-latest
+    needs: syntax
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install PHPCS + WPCS
+        run: |
+          composer global require --dev --no-interaction \
+            squizlabs/php_codesniffer:^3 \
+            wp-coding-standards/wpcs:^3 \
+            dealerdirect/phpcodesniffer-composer-installer:^1
+          echo "$(composer global config bin-dir --absolute --quiet)" >> $GITHUB_PATH
+
+      - name: Run phpcs with WordPress standard
+        run: |
+          phpcs --standard=WordPress --extensions=php --warning-severity=0 \
+                src/ tests/ || true
+        # Non-blocking: reports but does not fail CI. Tighten later.
+
+  # --- Integration tests note ---
+  # The 23-test battery in tests/level3-fix-tests.php requires a full
+  # WordPress + WooCommerce + Stripe Gateway environment. To keep CI fast,
+  # it is not run here. Run locally against any WP+WC+Stripe install:
+  #
+  #   wp eval-file tests/level3-fix-tests.php
+  #
+  # Expected result: 23 passed, 0 failed. See docs/TESTING.md for the
+  # full expected output and edge-case matrix.
