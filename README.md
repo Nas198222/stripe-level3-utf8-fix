@@ -24,14 +24,18 @@ boundaries. Zero change to the upstream plugin; survives plugin updates.
 ```
 ├── README.md              ← this file
 ├── src/
-│   └── aladdin-stripe-level3-utf8-fix.php   ← the fix (drop into wp-content/mu-plugins/)
+│   ├── aladdin-stripe-level3-utf8-fix.php   ← the fix (drop into wp-content/mu-plugins/)
+│   └── aladdin-fix-watchdog.php             ← daily health-check (optional companion mu-plugin)
 ├── docs/
 │   ├── BUG_FORENSICS.md   ← deep dive: why this happens, line numbers, bytes
 │   ├── DEPLOY.md          ← deployment runbook (staging → production)
 │   ├── TESTING.md         ← full test battery (23 tests) and results
-│   └── MONITORING.md      ← how to verify the fix is working in production
-└── tests/
-    └── level3-fix-tests.php   ← runnable test suite (wp eval)
+│   ├── MONITORING.md      ← how to verify the fix is working in production
+│   └── WATCHDOG.md        ← companion health-check mu-plugin docs
+├── tests/
+│   └── level3-fix-tests.php   ← runnable test suite (wp eval)
+└── .github/workflows/
+    └── ci.yml             ← GitHub Actions CI (syntax, PHPStan, WPCS)
 ```
 
 ## The bug in one sentence
@@ -65,6 +69,7 @@ automatically.
 | [docs/DEPLOY.md](docs/DEPLOY.md) | Step-by-step deployment (staging → production), verification commands, rollback procedure |
 | [docs/TESTING.md](docs/TESTING.md) | 23-test battery with results, edge case matrix, functional proof |
 | [docs/MONITORING.md](docs/MONITORING.md) | Post-deploy monitoring, signals to watch, what a healthy vs broken state looks like |
+| [docs/WATCHDOG.md](docs/WATCHDOG.md) | Optional health-check mu-plugin — runs daily and emails admin if anything is wrong |
 
 ## Why this matters (business impact)
 
