@@ -1,0 +1,16 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests
+    bootstrapFiles:
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+    ignoreErrors:
+        # WC_Stripe classes are external; stubs don't exist for the 3rd-party Stripe plugin.
+        - '#^.*(WC_Stripe_Helper|WC_Stripe_Logger).*$#'
+    excludePaths:
+        - vendor
+        - node_modules
