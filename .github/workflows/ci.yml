@@ -50,7 +50,7 @@ jobs:
         run: composer install --no-interaction --prefer-dist --no-progress
 
       - name: Run PHPStan
-        run: vendor/bin/phpstan analyse --memory-limit=512M --no-progress --error-format=table
+        run: vendor/bin/phpstan analyse --memory-limit=2G --no-progress --error-format=table
 
   wpcs:
     name: WordPress Coding Standards
