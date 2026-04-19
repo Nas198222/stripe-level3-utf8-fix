@@ -12,5 +12,5 @@ parameters:
         # WC_Stripe classes are external; stubs don't exist for the 3rd-party Stripe plugin.
         - '#^.*(WC_Stripe_Helper|WC_Stripe_Logger).*$#'
     excludePaths:
-        - vendor
-        - node_modules
+        - vendor (?)
+        - node_modules (?)
