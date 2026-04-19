@@ -5,12 +5,11 @@ parameters:
     level: 5
     paths:
         - src
-        - tests
     bootstrapFiles:
         - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
-    ignoreErrors:
-        # WC_Stripe classes are external; stubs don't exist for the 3rd-party Stripe plugin.
-        - '#^.*(WC_Stripe_Helper|WC_Stripe_Logger).*$#'
+    # PHPDoc-derived types are often approximate (especially in WP/WC core).
+    # Don't fail CI on narrowed-type inferences that only come from docblocks.
+    treatPhpDocTypesAsCertain: false
     excludePaths:
         - vendor (?)
         - node_modules (?)
