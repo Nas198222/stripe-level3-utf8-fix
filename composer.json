@@ -10,7 +10,7 @@
     "require-dev": {
         "phpstan/phpstan": "^2.0",
         "szepeviktor/phpstan-wordpress": "^2.0",
-        "php-stubs/woocommerce-stubs": "^9.0"
+        "php-stubs/woocommerce-stubs": "^10.7"
     },
     "config": {
         "allow-plugins": {
