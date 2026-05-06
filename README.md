@@ -1,5 +1,7 @@
 # Stripe Level3 UTF-8 Fix for WooCommerce
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![CI](https://github.com/Nas198222/stripe-level3-utf8-fix/actions/workflows/ci.yml/badge.svg)](https://github.com/Nas198222/stripe-level3-utf8-fix/actions/workflows/ci.yml) [![WordPress Plugin](https://img.shields.io/badge/WordPress-mu--plugin-21759B?logo=wordpress&logoColor=white)](https://wordpress.org) [![Last commit](https://img.shields.io/github/last-commit/Nas198222/stripe-level3-utf8-fix)](https://github.com/Nas198222/stripe-level3-utf8-fix/commits/main)
+
 **Status:** 🟢 Deployed to production on 2026-04-18
 **Site:** aladdinshouston.com (Aladdin Mediterranean Cuisine, Houston TX)
 **Upstream plugin affected:** [WooCommerce Stripe Gateway](https://wordpress.org/plugins/woocommerce-gateway-stripe/) v10.5.3
